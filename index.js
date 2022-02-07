@@ -17,5 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 //ruteo
 app.use('/',require('./routes/routes'))
 
+app.use('/auth', require('./routes/authRoutes'))
+
 //servidor
 app.listen(process.env.PORT, () => console.log(`Servidor activo en puerto ${process.env.PORT}`))
