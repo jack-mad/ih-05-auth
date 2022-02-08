@@ -78,9 +78,49 @@ exports.registerForm = async (req, res) => {
 
 }
 
-
+          
 exports.login = (req, res) => {
 
 	res.render("auth/login")
 
+}
+
+exports.loginForm = async (req, res) => {
+	//obtener datos de formulario 
+	console.log(req.body)
+	const {email, password} = req.body
+
+
+	//validar usuario encontrado en db
+	const foundUser = await User.findOne({email})
+
+	if (!foundUser){
+		res.render('auth/login', {
+			errorMessage: 'Email o contraseña sin coincidencia, intenta de nuevo.'
+		})
+		return
+	}
+	
+	
+	//validacion de contraseña 
+	const verifyPass = await bcryptjs.compareSync(password, foundUser.password)
+	console.log(verifyPass);
+	if(!verifyPass){
+
+		res.render("auth/login", {
+			errorMessage: 'Email o contraseña incorrecta, intenta de nuevo.'
+		})
+
+		return
+
+	}
+	//gestion de sesion, si coincide la contraseña crea una sesion de ese mismo usuario
+	const usr = req.session.currentUser = {
+		_id: foundUser._id,
+		username: foundUser.username,
+		email: foundUser.email,
+		msg: "Este es su ticket"
+	}
+	//redireccion al profile
+	return res.redirect('/profile')
 }

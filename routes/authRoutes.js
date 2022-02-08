@@ -13,7 +13,8 @@ router.post('/register', authController.registerForm)
 //login - obtener pagina
 router.get('/login', authController.login)
 
-
+//login - enviar formulario de logi
+router.post("/login", authController.loginForm)
 
 //exportacion
 module.exports = router

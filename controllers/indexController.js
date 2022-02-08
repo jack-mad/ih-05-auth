@@ -4,5 +4,15 @@ exports.getHome = (req,res) => {
 }
 
 exports.getProfile = (req,res) => {
-    res.render('profile')
+    console.log(req.session)
+    
+    const username = req.session.currentUser.username || ""
+	const email = req.session.currentUser.email || ""
+	const msg = req.session.currentUser.msg || "" 
+    
+    res.render('profile',{
+        username,
+        email,
+        msg
+    })
 }
