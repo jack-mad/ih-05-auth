@@ -21,6 +21,13 @@ app.use(express.urlencoded({ extended: true }));
 
 
 //ruteo
+//layout middleware
+app.use((req, res, next) => {
+    console.log(req.session.currentUser)
+    res.locals.currentUser = req.session.currentUser //guarda en local 
+    console.log(res.locals);
+    next()
+})
 app.use('/',require('./routes/routes'))
 
 app.use('/auth', require('./routes/authRoutes'))
